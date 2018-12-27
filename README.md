@@ -32,5 +32,12 @@ This is a study project to teach myself golang in depth.
   - easy open/save/sync
   - open files in external editor (photoshop, luminar...)
   - present the folder view as selected from the sync
+  - local version of the web interface for offline management (import new files, edit, organize local files)
 - image tagging
   - auto tagging from jpeg embedded infos
+
+# Phase 1
+- import files in date base folders
+- web interface to preset the folders contents
+- web interface to select/rate/delete files
+- desktop client to open/save/upload
