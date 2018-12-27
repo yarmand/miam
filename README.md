@@ -6,6 +6,7 @@ This is a study project to teach myself golang in depth.
 # targeted feature (not in particular order)
 
 - import automatically media from a inserted SD card
+  - select drive
 - link JPEG and RAW versions of teh same image (can have several JPEG for the same RAW)
   - delete all the the JPEGs delete the RAW
   - publish a developed/processed JPEG
@@ -13,6 +14,10 @@ This is a study project to teach myself golang in depth.
 - sync a designated folder to a cloud provider (OneDrive, DropBox...)
 - web interface
   - dark table (quick select. delete, tag)
+  - select files fast
+  - move in folders
+  - create folders
+  - manage attached drives
 - share folders
   - sharing remains if folder is moved
   - sharing type
@@ -24,4 +29,4 @@ This is a study project to teach myself golang in depth.
   - easy open/save/sync
   - open files in external editor (photoshop, luminar...)
 - image tagging
-- auto tagging from jpeg embedded infos
+  - auto tagging from jpeg embedded infos
