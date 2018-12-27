@@ -7,6 +7,8 @@ This is a study project to teach myself golang in depth.
 
 - import automatically media from a inserted SD card
   - select drive
+  - import in date based folder `year/mont/day`.
+    - file will remain forever in those date base folder
 - link JPEG and RAW versions of teh same image (can have several JPEG for the same RAW)
   - delete all the the JPEGs delete the RAW
   - publish a developed/processed JPEG
@@ -15,9 +17,10 @@ This is a study project to teach myself golang in depth.
 - web interface
   - dark table (quick select. delete, tag)
   - select files fast
-  - move in folders
+  - move in folders (virtual folders)
   - create folders
   - manage attached drives
+  - keep access to files via date forever (virtual folders)
 - share folders
   - sharing remains if folder is moved
   - sharing type
@@ -28,5 +31,6 @@ This is a study project to teach myself golang in depth.
 - desktop client
   - easy open/save/sync
   - open files in external editor (photoshop, luminar...)
+  - present the folder view as selected from the sync
 - image tagging
   - auto tagging from jpeg embedded infos
