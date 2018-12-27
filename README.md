@@ -41,3 +41,8 @@ This is a study project to teach myself golang in depth.
 - web interface to preset the folders contents
 - web interface to select/rate/delete files
 - desktop client to open/save/upload
+
+# selection of tools and librairies
+- https://github.com/spf13/afero => A FileSystem Abstraction System for Go
+- https://github.com/fsnotify/fsnotify => Cross-platform file system notifications for Go. https://fsnotify.org
+- 
