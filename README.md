@@ -9,8 +9,8 @@ This is a study project to teach myself golang in depth.
   - select drive
   - import in date based folder `year/mont/day`.
     - file will remain forever in those date base folder
-- link JPEG and RAW versions of teh same image (can have several JPEG for the same RAW)
-  - delete all the the JPEGs delete the RAW
+- link JPEG and RAW versions of the same image (can have several JPEG for the same RAW)
+  - delete all the the JPEGs => delete the RAW
   - publish a developed/processed JPEG
   - published jpeg is marked to be able to find back the RAW later
 - sync a designated folder to a cloud provider (OneDrive, DropBox...)
@@ -38,7 +38,8 @@ This is a study project to teach myself golang in depth.
 
 # Phase 1
 - import files in date base folders
-- web interface to preset the folders contents
+- web interface to present the folders contents
+- tag images
 - web interface to select/rate/delete files
 - desktop client to open/save/upload
 
