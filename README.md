@@ -1,4 +1,7 @@
 # miam
+
+[![Build Status](https://dev.azure.com/yann0602/miam/_apis/build/status/yarmand.miam?branchName=master)](https://dev.azure.com/yann0602/miam/_build/latest?definitionId=1&branchName=master)
+
 image &amp; video manager local and cloud
 
 This is a study project to teach myself golang in depth.
