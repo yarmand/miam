@@ -47,4 +47,5 @@ This is a study project to teach myself golang in depth.
 - https://github.com/spf13/afero => A FileSystem Abstraction System for Go
 - https://github.com/fsnotify/fsnotify => Cross-platform file system notifications for Go. https://fsnotify.org
 - https://github.com/labstack/echo => High performance, minimalist Go web framework https://echo.labstack.com
+- https://github.com/rwcarlsen/goexif => exif lib
 
