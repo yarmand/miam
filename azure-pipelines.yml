@@ -3,6 +3,9 @@ pool:
 
 steps:
   - bash: |
+      #!/bin/bash
+
+      set -e
       IMAGE_NAME=miam-$(Build.BuildId)
       docker build -t ${IMAGE_NAME} -f Dockerfile-CI . 
       docker run --rm ${IMAGE_NAME} go test ./...
