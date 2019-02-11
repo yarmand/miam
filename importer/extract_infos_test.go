@@ -12,7 +12,7 @@ var _ = Describe("ExtractInfo", func() {
 			date := GetCreationDate(fname)
 			Expect(date.Year()).To(Equal(2018))
 			Expect(int(date.Month())).To(Equal(6))
-			Expect(date.Day()).To(Equal(25))
+			Expect(date.Day()).To(Equal(24))
 		})
 	})
 })
