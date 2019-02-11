@@ -6,6 +6,38 @@ image &amp; video manager local and cloud
 
 This is a study project to teach myself golang in depth.
 
+# Setup / data structures
+
+## Env variables
+
+**MIAM_DATA_DIR** => the root of the data. database and images aftert importation get there.
+
+## Date folder structure
+The root of the data dir is defined by the ENV variable `MIAM_DATA_DIR`
+
+- /queues
+- /queues/imports
+- /queues/thumbnails.db
+- /event_log.db
+    - log of all operations that change the datas. Each row as a unique ID. This log can be use to sync several instances of Miam.
+- /images.db
+- /images
+- /images/jpegs
+- /images/raws
+
+## multiple version of the same image
+
+Each image can have:
+- master raw
+- master jpeg
+- luminar raw
+- luminar jpeg
+- versions
+- developed
+- thumbnails
+
+All the iteration of the same image are linked together
+
 # targeted feature (not in particular order)
 
 - import automatically media from a inserted SD card
@@ -51,4 +83,5 @@ This is a study project to teach myself golang in depth.
 - https://github.com/fsnotify/fsnotify => Cross-platform file system notifications for Go. https://fsnotify.org
 - https://github.com/labstack/echo => High performance, minimalist Go web framework https://echo.labstack.com
 - https://github.com/rwcarlsen/goexif => exif lib
+- https://github.com/mattn/go-sqlite3 => sqlite3 driver to use with database/sql 
 

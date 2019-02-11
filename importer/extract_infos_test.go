@@ -1,12 +1,18 @@
 package importer
 
-import "testing"
+import (
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+)
 
-func TestGetCreationDate(t *testing.T) {
-	fname := "../testAssets/testImage.jpeg"
-
-	date := GetCreationDate(fname)
-	if !(date.Year() == 2018 && date.Month() == 6 && date.Day() == 25) {
-		t.Error("Incorect date\nexpected: 2018-06-25 ...\ngot:", date)
-	}
-}
+var _ = Describe("ExtractInfo", func() {
+	Describe("GetCreationDate", func() {
+		It("extract the creation date properly", func() {
+			fname := "../testAssets/testImage.jpeg"
+			date := GetCreationDate(fname)
+			Expect(date.Year()).To(Equal(2018))
+			Expect(int(date.Month())).To(Equal(6))
+			Expect(date.Day()).To(Equal(25))
+		})
+	})
+})
