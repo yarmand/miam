@@ -31,7 +31,7 @@ func Config() *Configuration {
 	data, err := ioutil.ReadFile(config_file)
 	if err != nil {
 		errors.Annotate(err, "error reading file"+config_file)
-		log.Fatal("error: %v", err)
+		log.Fatalf("error: %v", err)
 	}
 	return parseConfig(string(data))
 }
