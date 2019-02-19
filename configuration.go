@@ -10,28 +10,27 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Note: struct fields must be public in order for unmarshal to
-// correctly populate the data.
+// Configuration struct holding local miam config
 type Configuration struct {
 	Importers []struct {
-		Source      string `yaml: "source"`
-		Destination string `yaml: "destination"`
-	} `yaml: "importers"`
+		Source      string `yaml:"source"`
+		Destination string `yaml:"destination"`
+	} `yaml:"importers"`
 }
 
 // Config read and memoize the config read from the file defined as
 // MIAM_CONFIG_FILE of teh default is ./miam.yaml
 func Config() *Configuration {
-	var config_file string
+	var configFile string
 	if os.Getenv("MIAM_CONFIG_FILE") != "" {
-		config_file = os.Getenv("MIAM_CONFIG_FILE")
+		configFile = os.Getenv("MIAM_CONFIG_FILE")
 	} else {
-		config_file = "miam.yaml"
+		configFile = "miam.yaml"
 	}
-	data, err := ioutil.ReadFile(config_file)
+	data, err := ioutil.ReadFile(configFile)
 	if err != nil {
-		errors.Annotate(err, "error reading file"+config_file)
-		log.Fatal("error: %v", err)
+		errors.Annotate(err, "error reading file"+configFile)
+		log.Fatalf("error: %v", err)
 	}
 	return parseConfig(string(data))
 }
