@@ -10,14 +10,18 @@ import (
 var _ = Describe("Configuration", func() {
 	var data = `
 importers:
-	- source: default
-		destination: "d:/lapin"
+  - source: "default"
+    destination: "d:/lapin"
+  - source: "e:/"
+    destination: "d:/lapin"
 `
-	BeforeEach(func() {
-		fmt.Println(data)
+	BeforeSuite(func() {
+		fmt.Printf("== DATA ==\n%v\n===========", data)
 	})
 	It("load the config", func() {
-		parseConfig(data)
-		Expect(1).To(Equal(1))
+		conf := parseConfig(data)
+		for _, importer := range conf.Importers {
+			Expect(importer.Destination).To(Equal("d:/lapin"))
+		}
 	})
 })
