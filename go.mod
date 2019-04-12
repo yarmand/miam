@@ -6,4 +6,5 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/rwcarlsen/goexif v0.0.0-20190107194617-b1fd11e07dc5
 	gopkg.in/yaml.v2 v2.2.2
+	github.com/golang/xerrors
 )
