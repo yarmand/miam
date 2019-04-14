@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"github.com/yarmand/miam/cmd"
 )
 
 func main() {
-	fmt.Println("Hello, world:" + os.Getenv("LAPIN"))
+	cmd.Execute()
 }
