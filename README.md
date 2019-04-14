@@ -84,6 +84,5 @@ All the iteration of the same image are linked together
 - https://github.com/labstack/echo => High performance, minimalist Go web framework https://echo.labstack.com
 - https://github.com/rwcarlsen/goexif => exif lib
 - https://github.com/mattn/go-sqlite3 => sqlite3 driver to use with database/sql
-- https://github.com/juju/errors => easy way to annotate errors without losing the orginal error context
 - https://github.com/spf13/cobra => A Commander for modern Go CLI interactions
 - https://github.com/onsi/ginkgo + gomega => BDD style testing
