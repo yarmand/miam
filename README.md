@@ -86,3 +86,4 @@ All the iteration of the same image are linked together
 - https://github.com/mattn/go-sqlite3 => sqlite3 driver to use with database/sql
 - https://github.com/spf13/cobra => A Commander for modern Go CLI interactions
 - https://github.com/onsi/ginkgo + gomega => BDD style testing
+- https://github.com/noelyahan/mergi => Fun and lightweight image programming tool + library (merge, crop, resize, watermark, animate, easing)
