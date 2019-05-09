@@ -89,3 +89,4 @@ All the iteration of the same image are linked together
 - https://github.com/google/go-cmp => Package for comparing Go values in tests
 - https://github.com/stretchr/testify => A testing toolkit with common assertions and mocks that plays nicely with the standard library
 - https://github.com/noelyahan/mergi => Fun and lightweight image programming tool + library (merge, crop, resize, watermark, animate, easing)
+- https://github.com/esimov/caire => Content aware image resize library
