@@ -84,6 +84,10 @@ All the iteration of the same image are linked together
 - https://github.com/labstack/echo => High performance, minimalist Go web framework https://echo.labstack.com
 - https://github.com/rwcarlsen/goexif => exif lib
 - https://github.com/mattn/go-sqlite3 => sqlite3 driver to use with database/sql
+- https://github.com/gobuffalo/pop => Pop makes it easy to do CRUD operations, run migrations, and build/execute queries.
 - https://github.com/spf13/cobra => A Commander for modern Go CLI interactions
-- https://github.com/onsi/ginkgo + gomega => BDD style testing
+- https://github.com/google/go-cmp => Package for comparing Go values in tests
+- https://github.com/stretchr/testify => A testing toolkit with common assertions and mocks that plays nicely with the standard library
 - https://github.com/noelyahan/mergi => Fun and lightweight image programming tool + library (merge, crop, resize, watermark, animate, easing)
+- https://github.com/esimov/caire => Content aware image resize library
+- golang.org/x/exp/errors => go 2 proposal errros experiment package
