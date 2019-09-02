@@ -1,0 +1,5 @@
+create_table("photos") {
+  t.Column("path", "string", {})
+  t.Column("shoot_date", "datetime", {})
+  t.Column("joined_at", "timestamp", {})
+}
