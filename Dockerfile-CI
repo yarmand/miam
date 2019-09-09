@@ -15,5 +15,5 @@ RUN go get -u github.com/jstemmer/go-junit-report
 
 RUN go get -d -v ./...
 
-RUN go test -v ./... 2>&1 | tee go-report \
-    cat go-report | go-junit-report > test-report.xml
+RUN go test -v ./... 2>&1 | tee go-report
+RUN cat go-report | go-junit-report > test-report.xml
