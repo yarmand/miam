@@ -11,6 +11,9 @@ RUN apt install -y \
 WORKDIR /go/src/app
 COPY . .
 
+RUN go get -u github.com/jstemmer/go-junit-report
+
 RUN go get -d -v ./...
 
-RUN make test
+RUN go test -v ./... 2>&1 | tee go-report \
+    cat go-report | go-junit-report > test-report.xml
