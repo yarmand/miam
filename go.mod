@@ -6,10 +6,8 @@ require (
 	github.com/gobuffalo/depgen v0.1.0 // indirect
 	github.com/gobuffalo/fizz v1.7.0 // indirect
 	github.com/gobuffalo/genny v0.3.0 // indirect
-	github.com/gobuffalo/gitgen v0.0.0-20190315122116-cc086187d211 // indirect
 	github.com/gobuffalo/nulls v0.0.0-20190305142546-85f3c9250d87 // indirect
 	github.com/gobuffalo/pop v4.11.6+incompatible // indirect
-	github.com/gobuffalo/syncx v0.0.0-20190224160051-33c29581e754 // indirect
 	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960 // indirect
 	github.com/google/go-cmp v0.3.0 // indirect
 	github.com/lib/pq v1.1.1 // indirect

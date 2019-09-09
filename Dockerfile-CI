@@ -1,9 +1,16 @@
-FROM golang:1.11-stretch
+FROM golang:1.13
+
+ENV GO111MODULE=on
+
+# RUN apt-get update && \
+RUN apt install -y \
+        binutils \
+        gcc \
+        make
 
 WORKDIR /go/src/app
 COPY . .
 
-RUN go get -u golang.org/x/sys/...
-RUN go get -u github.com/onsi/ginkgo github.com/onsi/gomega
 RUN go get -d -v ./...
-RUN go install -v ./...
+
+RUN make test

@@ -13,7 +13,7 @@ gcmd:
 	echo $(GOCMD)
 
 .PHONY: test
-test: test-createDB
+test: 
 	$(GOCMD) test ./...
 
 .PHONY: getSoda
