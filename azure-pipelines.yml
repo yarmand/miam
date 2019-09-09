@@ -8,7 +8,9 @@ steps:
       set -e
       IMAGE_NAME=miam-$(Build.BuildId)
       docker build -t ${IMAGE_NAME} -f Dockerfile-CI . 
-      docker cp ${IMAGE_NAME}:/go/src/app/test-report.xml ./test-report.xml
+      go run -n ${IMAGE_NAME}-container ${IMAGE_NAME} /bin/ls 
+      docker cp ${IMAGE_NAME}-container:/go/src/app/test-report.xml ./test-report.xml
+      docker rm ${IMAGE_NAME}-container
       docker image rm ${IMAGE_NAME}
     displayName: Run Tests
 
