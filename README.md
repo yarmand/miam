@@ -84,7 +84,7 @@ All the iteration of the same image are linked together
 - https://github.com/labstack/echo => High performance, minimalist Go web framework https://echo.labstack.com
 - https://github.com/rwcarlsen/goexif => exif lib
 - https://github.com/mattn/go-sqlite3 => sqlite3 driver to use with database/sql
-- https://faiface.github.io => SQL builder and query library for golang
+- https://github.com/jmoiron/sqlx => general purpose extensions to golang's database/sql http://jmoiron.github.io/sqlx/
 - https://github.com/gobuffalo/pop => Pop makes it easy to do CRUD operations, run migrations, and build/execute queries.
 - https://github.com/spf13/cobra => A Commander for modern Go CLI interactions
 - https://github.com/google/go-cmp => Package for comparing Go values in tests
