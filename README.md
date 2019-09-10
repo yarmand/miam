@@ -1,6 +1,6 @@
 # miam
 
-[![Build Status](https://dev.azure.com/yann0602/miam/_apis/build/status/yarmand.miam?branchName=master)](https://dev.azure.com/yann0602/miam/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/yann0602/miam/_apis/build/status/yarmand.miam%20(2)?branchName=master)](https://dev.azure.com/yann0602/miam/_build/latest?definitionId=3&branchName=master)
 
 image &amp; video manager local and cloud
 
