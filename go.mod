@@ -9,7 +9,7 @@ require (
 	github.com/gobuffalo/nulls v0.0.0-20190305142546-85f3c9250d87 // indirect
 	github.com/gobuffalo/pop v4.11.6+incompatible // indirect
 	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960 // indirect
-	github.com/google/go-cmp v0.3.0 // indirect
+	github.com/google/go-cmp v0.3.0
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/markbates/going v1.0.3 // indirect

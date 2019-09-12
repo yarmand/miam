@@ -1,18 +1,15 @@
 package importer
 
 import (
-	sql "github.com/jmoiron/sqlx"
+	"context"
 )
 
-// Processor is a function that process the image.
-// it can be wrapped or followed by another processor.
-type Processor func(importer Importer, nextProcessor *Processor)
+// Processor is a function that process an image read from disk
+type Processor func(ctx context.Context, filename string)
 
-// Importer get images from a **source**, move them in a date based **ImportRoot** and
-// insert reference in a **importDB**
-type Importer struct {
-	source     string
-	importRoot string
-	importDB   sql.DB
-	processor  Processor
+// ImportFiles get a list of files and run processor on them.
+func ImportFiles(fileNames []string, process Processor) {
+	for _, fileName := range fileNames {
+		process(nil, fileName)
+	}
 }
