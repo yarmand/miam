@@ -20,9 +20,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var importerSource string
+var importerDestination string
+var lookupDelay int
+
 // importCmd represents the import command
-var importCmd = &cobra.Command{
-	Use:   "import",
+var importerCmd = &cobra.Command{
+	Use:   "importer",
 	Short: "manager the importers and trigger import",
 	Long: `miam use importer specified in the configuration.
 	This command can list them but also trigger import to one of all of them.`,
@@ -31,8 +35,40 @@ var importCmd = &cobra.Command{
 	},
 }
 
+// listCmd represents the list command
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "list all importer",
+	Long:  `List all configured importer`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("list called")
+	},
+}
+
+func initListCmd() {
+	importerCmd.AddCommand(listCmd)
+}
+
+var startCmd = &cobra.Command{
+	Use:   "start",
+	Short: "start a new importer",
+	Long:  "Start a new importer from the desired type. The importer will remain active in the background until stoped",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("start` called")
+	},
+}
+
+func initStartCmd() {
+	startCmd.Flags().StringVarP(&importerSource, "source", "s", ".", "The source folder that container images to import")
+	startCmd.Flags().StringVarP(&importerSource, "destination", "d", "", "The destination folder to copy images")
+	startCmd.Flags().IntVarP(&lookupDelay, "lookup delay", "t", 10, "When importer is not treating files, it will wait this delay before checking the source folder for new files")
+	importerCmd.AddCommand(startCmd)
+}
+
 func init() {
-	rootCmd.AddCommand(importCmd)
+	initListCmd()
+	initStartCmd()
+	rootCmd.AddCommand(importerCmd)
 
 	// Here you will define your flags and configuration settings.
 
