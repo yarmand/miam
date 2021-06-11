@@ -1,0 +1,73 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/go
+{
+	"name": "Go",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			// Update the VARIANT arg to pick a version of Go: 1, 1.16, 1.15
+			"VARIANT": "1.16",
+			// Options
+			"INSTALL_NODE": "false",
+			"NODE_VERSION": "lts/*",
+			"USERNAME": "${env:USERNAME}${env:USER}"
+		}
+	},
+	"runArgs": [ 
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined",
+    "--mount",
+    "source=${env:HOME}${env:USERPROFILE},target=/home/${env:USERNAME}${env:USER},type=bind,consistency=delegated", // so you can access some of your host home directory files (like all source code) or copy config in /home/vscode ...
+
+	],
+	"mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+	],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "/usr/bin/zsh",
+		"go.toolsManagement.checkForUpdates": "local",
+		"go.goroot": "/usr/local/go",
+    "remote.containers.workspaceMountConsistency": "delegated",
+    "files.eol": "\n", // formatting only supports LF line endings
+    "go.gopath": "/go",
+    "go.useLanguageServer": true,
+    "gopls": {
+      "usePlaceholders": true, // add parameter placeholders when completing a function
+      // Experimental settings
+      "completeUnimported": true, // autocomplete unimported packages
+      "deepCompletion": true // enable deep completion
+    },
+    "go.formatTool": "goimports",
+    "[go]": {
+      "editor.snippetSuggestions": "none",
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      }
+    },
+    "go.languageServerFlags": [
+      "-rpc.trace", // for more detailed debug logging
+      "-logfile",
+      "/tmp/gopls.log",
+      "serve"
+    ],
+    // </language-settings>
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"golang.Go"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "go version",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "${env:USERNAME}${env:USER}"
+}
