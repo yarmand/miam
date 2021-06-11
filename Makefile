@@ -6,7 +6,10 @@ SODACMD=soda
 TEST_DB=miam_test
 DEV_DB=miam_development
 
-all: test
+all: test build
+
+build:
+	go build -o miam .
 
 .PHONY: gcmd
 gcmd:
