@@ -1,0 +1,7 @@
+create_table("photos") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("path", "string", {"size": 512})
+	t.Column("rating", "integer")
+	t.Column("flags", "integer", {"size": 4})
+	t.Timestamps()
+}

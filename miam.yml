@@ -1,0 +1,3 @@
+importers:
+  - source: ./test-import
+    destination: ./imported

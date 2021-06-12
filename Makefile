@@ -20,19 +20,19 @@ test:
 	$(GOCMD) test ./...
 
 .PHONY: getSoda
-getSoda:
+get-soda:
 	which $(SODACMD) || $(GOCMD) get -u -v -tags sqlite github.com/gobuffalo/pop/... ; true
 	which $(SODACMD) || $(GOCMD) install -tags sqlite github.com/gobuffalo/pop/soda
 
 $(TEST_DB).sqlite: 
-	cd db ; $(SODACMD) create  $(TEST_DB)
+	$(SODACMD) create  $(TEST_DB)
 
 test-migrateDB: $(TEST_DB).sqlite
-	cd db ; $(SODACMD) migrate -e test migrate
+	$(SODACMD) migrate -e test
 
 $(DEV_DB).sqlite: 
-	cd db ; $(SODACMD) create  $(DEV_DB)
+	$(SODACMD) create  $(DEV_DB)
 
 dev-migrateDB: $(DEV_DB).sqlite
-	cd db ; $(SODACMD) migrate -e development 
+	$(SODACMD) migrate -e development 
 

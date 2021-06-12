@@ -1,0 +1,10 @@
+---
+development:
+  dialect: sqlite
+  database: miam_development.sqlite
+
+test:
+  url: {{envOr "TEST_DATABASE_URL" "sqlite://miam_test.sqlite?_fk=true"}}
+
+production:
+  url: {{envOr "DATABASE_URL" "sqlite://miam_production.sqlite?_fk=true"}}

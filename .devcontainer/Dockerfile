@@ -47,7 +47,8 @@ RUN set -e && \
         sudo \
         less \
         file \
-        docker-ce-cli && \
+        docker-ce-cli \
+        sqlite3 && \
 # local timezone
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
 ## docker-compose
