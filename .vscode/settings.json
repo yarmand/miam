@@ -1,3 +1,20 @@
 {
-  "go.formatTool": "goimports"
+  "go.formatTool": "goimports",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#3c4e78",
+    "activityBar.activeBorder": "#2a151c",
+    "activityBar.background": "#3c4e78",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#2a151c",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.background": "#2b3856",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3c4e78",
+    "titleBar.activeBackground": "#2b3856",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#2b385699",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.remoteColor": "#2b3856"
 }

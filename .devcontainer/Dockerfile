@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
 # Or your actual UID, GID on Linux if not the default 1000
 ARG USERNAME=vscode
 ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG USER_GID=${USER_UID}
 ARG TZ=America/Los_Angeles
 
 # The DOCKER_COMPOSE_SHA can be found at https://github.com/docker/compose/releases, inside the corresponding .sha256
@@ -66,9 +66,14 @@ RUN set -e && \
 # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     userdel vscode && \
     groupadd --gid $USER_GID $USERNAME && \
-    useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+    useradd -s /usr/bin/zsh --uid $USER_UID --gid $USER_GID -m $USERNAME && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME
+    chmod 0440 /etc/sudoers.d/$USERNAME && \
+    # store vscode-server files in the contaienr root 
+    mkdir /.vscode-server && \
+    chown yarmand.yarmand /.vscode-server && \
+    mkdir /.vscode-server-insiders && \
+    chown yarmand.yarmand /.vscode-server-insiders
 
 
 # [Optional] Uncomment this section to install additional OS packages.
