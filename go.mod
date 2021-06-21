@@ -30,10 +30,12 @@ require (
 	github.com/lib/pq v1.10.2 // indirect
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.10 // indirect
+	github.com/radovskyb/watcher v1.0.7
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/viper v1.7.0
 	github.com/stretchr/testify v1.7.0

@@ -92,3 +92,4 @@ All the iteration of the same image are linked together
 - https://github.com/noelyahan/mergi => Fun and lightweight image programming tool + library (merge, crop, resize, watermark, animate, easing)
 - https://github.com/esimov/caire => Content aware image resize library
 - golang.org/x/exp/errors => go 2 proposal errros experiment package
+- github.com/joncrlsn/dque => persistent queues

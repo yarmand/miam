@@ -1,5 +1,11 @@
 package models
 
-func (ms *ModelSuite) Test_Photo() {
-	ms.Fail("This test needs to be implemented!")
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func Test_Photo(t *testing.T) {
+	assert.FailNow(t, "This test needs to be implemented!")
 }

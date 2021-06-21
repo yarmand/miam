@@ -16,7 +16,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
+	"github.com/radovskyb/watcher"
 	"github.com/spf13/cobra"
 )
 
@@ -35,26 +37,41 @@ var importerCmd = &cobra.Command{
 	},
 }
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "list all importer",
-	Long:  `List all configured importer`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-	},
-}
-
-func initListCmd() {
-	importerCmd.AddCommand(listCmd)
-}
-
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "start a new importer",
 	Long:  "Start a new importer from the desired type. The importer will remain active in the background until stoped",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start` called")
+
+		w := watcher.New()
+
+		// SetMaxEvents to 1 to allow at most 1 event's to be received
+		// on the Event channel per watching cycle.
+		//
+		// If SetMaxEvents is not set, the default is to send all events.
+		w.SetMaxEvents(1)
+		// Only notify rename and move events.
+		w.FilterOps(watcher.Write)
+
+		go func() {
+			for {
+				select {
+				case event := <-w.Event:
+					fmt.Println(event) // Print the event's info.
+				case err := <-w.Error:
+					log.Fatalln(err)
+				case <-w.Closed:
+					return
+				}
+			}
+		}()
+
+		// Watch this folder for changes.
+		if err := w.AddRecursive(importerSource); err != nil {
+			log.Fatalln(err)
+		}
+
 	},
 }
 
@@ -66,7 +83,6 @@ func initStartCmd() {
 }
 
 func init() {
-	initListCmd()
 	initStartCmd()
 	rootCmd.AddCommand(importerCmd)
 
