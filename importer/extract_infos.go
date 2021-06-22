@@ -3,15 +3,15 @@ package importer
 import (
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"github.com/rwcarlsen/goexif/exif"
+	"github.com/spf13/afero"
 )
 
 // GetCreationDate extract creation date from exif infos
-func GetCreationDate(fname string) time.Time {
-	x := decode(fname)
+func GetCreationDate(fs afero.Fs, fname string) time.Time {
+	x := decode(fs, fname)
 	// Two convenience functions exist for date/time taken and GPS coords:
 	tm, _ := x.DateTime()
 	fmt.Println("Taken: ", tm)
@@ -19,8 +19,8 @@ func GetCreationDate(fname string) time.Time {
 	return tm
 }
 
-func decode(fname string) *exif.Exif {
-	f, err := os.Open(fname)
+func decode(fs afero.Fs, fname string) *exif.Exif {
+	f, err := fs.Open(fname)
 	if err != nil {
 		log.Fatal(err)
 	}

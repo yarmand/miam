@@ -2,7 +2,9 @@ package importer
 
 import (
 	"fmt"
+	"io"
 	"testing"
+	"time"
 
 	"os"
 	"path"
@@ -76,5 +78,32 @@ func TestStart(t *testing.T) {
 		})
 		i.Import()
 		assert.Equal(t, []string{"a", "b", "c", "d"}, processedFiles, "processedFiles do not contains all files created in src folder")
+	})
+}
+
+func TestProcessors(t *testing.T) {
+	var appFS afero.Fs = afero.NewMemMapFs()
+	var osFS afero.Fs = afero.NewOsFs()
+	src := fmt.Sprintf("%s/%v", "/tmp/src", time.Now().Unix())
+	appFS.MkdirAll(src, os.ModePerm)
+	defer appFS.Remove(src)
+	// copy test image in src
+	from, err := osFS.Open("../testAssets/testImage.jpeg")
+	if err != nil {
+		panic("error opening test image")
+	}
+	defer from.Close()
+	to, _ := appFS.OpenFile(fmt.Sprintf("%s/testImage.jpeg", src), os.O_RDWR|os.O_CREATE, os.ModePerm)
+	defer to.Close()
+	io.Copy(to, from)
+
+	dest := fmt.Sprintf("%s/%v", "/tmp/dest", time.Now().Unix())
+	defer appFS.Remove(dest)
+	t.Run("PMoveToDest move file to date bas folder", func(t *testing.T) {
+		i := New(appFS, src, dest, PMoveToDest)
+		i.Import()
+		stats, err := appFS.Stat(fmt.Sprintf("%s/2018/06/25/testImage.jpeg", dest))
+		assert.Nil(t, err, "error checking moved file: %v", err)
+		assert.Equal(t, "testImage.jpeg", stats.Name(), "wrong moved image name")
 	})
 }
