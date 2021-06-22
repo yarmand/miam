@@ -16,10 +16,10 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/radovskyb/watcher"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
+	"github.com/yarmand/miam/importer"
 )
 
 var importerSource string
@@ -43,42 +43,17 @@ var startCmd = &cobra.Command{
 	Long:  "Start a new importer from the desired type. The importer will remain active in the background until stoped",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start` called")
-
-		w := watcher.New()
-
-		// SetMaxEvents to 1 to allow at most 1 event's to be received
-		// on the Event channel per watching cycle.
-		//
-		// If SetMaxEvents is not set, the default is to send all events.
-		w.SetMaxEvents(1)
-		// Only notify rename and move events.
-		w.FilterOps(watcher.Write)
-
-		go func() {
-			for {
-				select {
-				case event := <-w.Event:
-					fmt.Println(event) // Print the event's info.
-				case err := <-w.Error:
-					log.Fatalln(err)
-				case <-w.Closed:
-					return
-				}
-			}
-		}()
-
-		// Watch this folder for changes.
-		if err := w.AddRecursive(importerSource); err != nil {
-			log.Fatalln(err)
+		i := importer.New(afero.NewOsFs(), importerSource, importerDestination, importer.PLog)
+		err := i.Import()
+		if err != nil {
+			fmt.Printf("Error in Importer:%v\n", err)
 		}
-
 	},
 }
 
 func initStartCmd() {
 	startCmd.Flags().StringVarP(&importerSource, "source", "s", ".", "The source folder that container images to import")
-	startCmd.Flags().StringVarP(&importerSource, "destination", "d", "", "The destination folder to copy images")
-	startCmd.Flags().IntVarP(&lookupDelay, "lookup delay", "t", 10, "When importer is not treating files, it will wait this delay before checking the source folder for new files")
+	startCmd.Flags().StringVarP(&importerDestination, "destination", "d", "", "The destination folder to copy images")
 	importerCmd.AddCommand(startCmd)
 }
 

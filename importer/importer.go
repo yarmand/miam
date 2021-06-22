@@ -3,6 +3,7 @@ package importer
 import (
 	"context"
 	"io/fs"
+	"log"
 
 	"github.com/spf13/afero"
 )
@@ -15,6 +16,7 @@ type Importer struct {
 	source      string
 	destination string
 	appFS       afero.Fs
+	logger      *log.Logger
 }
 
 func New(fs afero.Fs, src string, dest string, processor Processor) (importer Importer) {
@@ -34,6 +36,13 @@ func (i Importer) After(processor Processor) Importer {
 	})
 }
 
+func (i Importer) Logger() *log.Logger {
+	if i.logger == nil {
+		i.logger = log.Default()
+	}
+	return i.logger
+}
+
 // WrapedIn creates a new Importer that will execute this importer and pass itsresult to
 // the Processor passed as argument.
 func (i Importer) WrapedIn(processor Processor) Importer {
@@ -47,8 +56,8 @@ func (i Importer) WrapedIn(processor Processor) Importer {
 }
 
 // Start importing files from source
-func (i Importer) Import() {
-	afero.Walk(i.appFS, i.source, func(path string, info fs.FileInfo, err error) error {
+func (i Importer) Import() error {
+	return afero.Walk(i.appFS, i.source, func(path string, info fs.FileInfo, err error) error {
 		if !info.IsDir() {
 			_, err := i.process(context.TODO(), i, path)
 			if err != nil {
