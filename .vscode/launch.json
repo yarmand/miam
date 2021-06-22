@@ -6,13 +6,13 @@
   "configurations": [
 
     {
-      "name": "Debug Miam",
+      "name": "Debug importer start",
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      "program": "${fileDirname}",
+      "program": "${workspaceFolder}/main.go",
       "env": {},
-      "args": ["-h"]
+      "args": ["importer", "start", "-s", "testAssets", "-d", "/tmp"]
     }
   ]
 }
