@@ -16,30 +16,17 @@ import (
 )
 
 func TestProcessorFunctions(t *testing.T) {
-	t.Run("WrapIn use result of left processor function as input to the wrap function", func(t *testing.T) {
-		var result string
-		i := New(nil, "", func(c context.Context, i Importer, f string) (string, error) {
-			return "bob", nil
-		})
-		i2 := i.WrapedIn(func(c context.Context, i Importer, f string) (string, error) {
-			result = "wrapped_" + f
-			return result, nil
-		})
-		i2.ImportFiles([]string{"hello"})
-		assert.Equal(t, "wrapped_bob", result, "failed wrapping other Importer")
-	})
-
 	t.Run("Then run the parameter funtion after the left processor function", func(t *testing.T) {
-		var result string
+		result := ""
 		i := New(nil, "", func(c context.Context, i Importer, f string) (string, error) {
-			result = "before_" + f
-			return result, nil
+			return "before_", nil
 		})
 		i2 := i.Then(func(c context.Context, i Importer, f string) (string, error) {
-			return "bob", nil
+			result = f + "after"
+			return result, nil
 		})
 		i2.ImportFiles([]string{"hello"})
-		assert.Equal(t, "before_bob", result, "failed wrapping other Importer")
+		assert.Equal(t, "before_after", result, "failed wrapping other Importer")
 	})
 }
 
@@ -93,7 +80,9 @@ func TestProcessors(t *testing.T) {
 	dest := fmt.Sprintf("%s/%v", "/tmp/dest", time.Now().Unix())
 	defer appFS.Remove(dest)
 	t.Run("PMoveToDest move file to date bas folder", func(t *testing.T) {
-		i := New(appFS, src, PMoveToDateFolder(dest))
+		i := New(appFS, src, PLogFilename("Processing: ", "")).
+			Then(PMoveToDateFolder(dest)).
+			Then(PLogFilename("processed file:", ""))
 		i.Import()
 		stats, err := appFS.Stat(fmt.Sprintf("%s/2018/06/25/testImage.jpg", dest))
 		assert.Nil(t, err, "error checking moved file: %v", err)

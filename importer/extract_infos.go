@@ -1,7 +1,6 @@
 package importer
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -14,8 +13,6 @@ func GetCreationDate(fs afero.Fs, fname string) time.Time {
 	x := decode(fs, fname)
 	// Two convenience functions exist for date/time taken and GPS coords:
 	tm, _ := x.DateTime()
-	fmt.Println("Taken: ", tm)
-
 	return tm
 }
 

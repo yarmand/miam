@@ -24,6 +24,6 @@ func PMoveToDateFolder(destPath string) Processor {
 		destfilename := fmt.Sprintf("%s/%s", destdatePath, path.Base(filename))
 		i.appFS.MkdirAll(destdatePath, os.ModePerm)
 		i.appFS.Rename(filename, destfilename)
-		return processedFilename, err
+		return destfilename, err
 	}
 }

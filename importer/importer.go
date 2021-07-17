@@ -26,12 +26,12 @@ func New(fs afero.Fs, src string, processor Processor) (importer Importer) {
 // Then creates a new Importer that will execute this importer processor on the result
 // of the processor passed as argument.
 func (i Importer) Then(processor Processor) Importer {
-	return New(i.appFS, i.source, func(ctx context.Context, importer Importer, filename string) (procesedFilename string, err error) {
-		procesedFilename, err = processor(ctx, i, filename)
+	return New(i.appFS, i.source, func(ctx context.Context, importer Importer, filename string) (processedFilename string, err error) {
+		firstOut, err := i.process(ctx, i, filename)
 		if err != nil {
 			return
 		}
-		return i.process(ctx, i, procesedFilename)
+		return processor(ctx, i, firstOut)
 	})
 }
 
@@ -40,18 +40,6 @@ func (i Importer) Logger() *log.Logger {
 		i.logger = log.Default()
 	}
 	return i.logger
-}
-
-// WrapedIn creates a new Importer that will execute this importer and pass itsresult to
-// the Processor passed as argument.
-func (i Importer) WrapedIn(processor Processor) Importer {
-	return New(i.appFS, i.source, func(ctx context.Context, importer Importer, filename string) (processedFilename string, err error) {
-		processedFilename, err = i.process(ctx, i, filename)
-		if err != nil {
-			return
-		}
-		return processor(ctx, i, processedFilename)
-	})
 }
 
 // Start importing files from source in go routines.

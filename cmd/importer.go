@@ -45,8 +45,9 @@ var startCmd = &cobra.Command{
 		i := importer.New(
 			afero.NewOsFs(),
 			importerSource,
-			importer.PLogFilename("Processing file: ", "")).
-			Then(importer.PMoveToDateFolder(importerDestination))
+			importer.PLogFilename(fmt.Sprintf("Processing file: %s/", importerSource), "")).
+			Then(importer.PMoveToDateFolder(importerDestination)).
+			Then(importer.PLogFilename("", "Processed"))
 		err := i.Import()
 		if err != nil {
 			fmt.Printf("Error in Importer:%v\n", err)
