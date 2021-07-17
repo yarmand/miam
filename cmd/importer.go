@@ -24,7 +24,6 @@ import (
 
 var importerSource string
 var importerDestination string
-var lookupDelay int
 
 // importCmd represents the import command
 var importerCmd = &cobra.Command{
@@ -43,7 +42,11 @@ var startCmd = &cobra.Command{
 	Long:  "Start a new importer from the desired type. The importer will remain active in the background until stoped",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start` called")
-		i := importer.New(afero.NewOsFs(), importerSource, importerDestination, importer.PLog)
+		i := importer.New(
+			afero.NewOsFs(),
+			importerSource,
+			importer.PLogFilename("Processing file: ", "")).
+			Then(importer.PMoveToDateFolder(importerDestination))
 		err := i.Import()
 		if err != nil {
 			fmt.Printf("Error in Importer:%v\n", err)

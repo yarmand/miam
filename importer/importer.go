@@ -12,22 +12,21 @@ import (
 type Processor func(ctx context.Context, importer Importer, filename string) (processedFilename string, err error)
 
 type Importer struct {
-	process     Processor
-	source      string
-	destination string
-	appFS       afero.Fs
-	logger      *log.Logger
+	process Processor
+	source  string
+	appFS   afero.Fs
+	logger  *log.Logger
 }
 
-func New(fs afero.Fs, src string, dest string, processor Processor) (importer Importer) {
-	importer = Importer{process: processor, source: src, destination: dest, appFS: fs}
+func New(fs afero.Fs, src string, processor Processor) (importer Importer) {
+	importer = Importer{process: processor, source: src, appFS: fs}
 	return
 }
 
-// After creates a new Importer that will execute this importer processor on the result
+// Then creates a new Importer that will execute this importer processor on the result
 // of the processor passed as argument.
-func (i Importer) After(processor Processor) Importer {
-	return New(i.appFS, i.source, i.destination, func(ctx context.Context, importer Importer, filename string) (procesedFilename string, err error) {
+func (i Importer) Then(processor Processor) Importer {
+	return New(i.appFS, i.source, func(ctx context.Context, importer Importer, filename string) (procesedFilename string, err error) {
 		procesedFilename, err = processor(ctx, i, filename)
 		if err != nil {
 			return
@@ -46,7 +45,7 @@ func (i Importer) Logger() *log.Logger {
 // WrapedIn creates a new Importer that will execute this importer and pass itsresult to
 // the Processor passed as argument.
 func (i Importer) WrapedIn(processor Processor) Importer {
-	return New(i.appFS, i.source, i.destination, func(ctx context.Context, importer Importer, filename string) (processedFilename string, err error) {
+	return New(i.appFS, i.source, func(ctx context.Context, importer Importer, filename string) (processedFilename string, err error) {
 		processedFilename, err = i.process(ctx, i, filename)
 		if err != nil {
 			return
@@ -55,7 +54,9 @@ func (i Importer) WrapedIn(processor Processor) Importer {
 	})
 }
 
-// Start importing files from source
+// Start importing files from source in go routines.
+// Import should be called only once, after having build a chain of
+// processors using WrapedIn() and Then().
 func (i Importer) Import() error {
 	return afero.Walk(i.appFS, i.source, func(path string, info fs.FileInfo, err error) error {
 		if !info.IsDir() {

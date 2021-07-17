@@ -18,7 +18,7 @@ import (
 func TestProcessorFunctions(t *testing.T) {
 	t.Run("WrapIn use result of left processor function as input to the wrap function", func(t *testing.T) {
 		var result string
-		i := New(nil, "", "", func(c context.Context, i Importer, f string) (string, error) {
+		i := New(nil, "", func(c context.Context, i Importer, f string) (string, error) {
 			return "bob", nil
 		})
 		i2 := i.WrapedIn(func(c context.Context, i Importer, f string) (string, error) {
@@ -29,13 +29,13 @@ func TestProcessorFunctions(t *testing.T) {
 		assert.Equal(t, "wrapped_bob", result, "failed wrapping other Importer")
 	})
 
-	t.Run("After run the parameter funtion after the left processor function", func(t *testing.T) {
+	t.Run("Then run the parameter funtion after the left processor function", func(t *testing.T) {
 		var result string
-		i := New(nil, "", "", func(c context.Context, i Importer, f string) (string, error) {
+		i := New(nil, "", func(c context.Context, i Importer, f string) (string, error) {
 			result = "before_" + f
 			return result, nil
 		})
-		i2 := i.After(func(c context.Context, i Importer, f string) (string, error) {
+		i2 := i.Then(func(c context.Context, i Importer, f string) (string, error) {
 			return "bob", nil
 		})
 		i2.ImportFiles([]string{"hello"})
@@ -51,7 +51,7 @@ func TestImportFiles(t *testing.T) {
 			processedFiles = append(processedFiles, f)
 			return "", nil
 		}
-		i := New(nil, "", "", process)
+		i := New(nil, "", process)
 		i.ImportFiles(files)
 		assert.Equal(t, files, processedFiles, fmt.Sprintf("processedFiles do not equal input files\n processFiles=%v\ninputFiles=%v", processedFiles, files))
 	})
@@ -72,7 +72,7 @@ func TestStart(t *testing.T) {
 
 	t.Run("Import process all files", func(t *testing.T) {
 		var processedFiles []string
-		i := New(appFS, src, dest, func(c context.Context, i Importer, f string) (string, error) {
+		i := New(appFS, src, func(c context.Context, i Importer, f string) (string, error) {
 			processedFiles = append(processedFiles, path.Base(f))
 			return "", nil
 		})
@@ -87,23 +87,32 @@ func TestProcessors(t *testing.T) {
 	src := fmt.Sprintf("%s/%v", "/tmp/src", time.Now().Unix())
 	appFS.MkdirAll(src, os.ModePerm)
 	defer appFS.Remove(src)
-	// copy test image in src
-	from, err := osFS.Open("../testAssets/testImage.jpeg")
-	if err != nil {
-		panic("error opening test image")
-	}
-	defer from.Close()
-	to, _ := appFS.OpenFile(fmt.Sprintf("%s/testImage.jpeg", src), os.O_RDWR|os.O_CREATE, os.ModePerm)
-	defer to.Close()
-	io.Copy(to, from)
+	copyFile(osFS, "../testAssets/testImage.jpg", appFS, fmt.Sprintf("%s/testImage.jpg", src))
+	copyFile(osFS, "../testAssets/testImage2.jpg", appFS, fmt.Sprintf("%s/testImage2.jpg", src))
 
 	dest := fmt.Sprintf("%s/%v", "/tmp/dest", time.Now().Unix())
 	defer appFS.Remove(dest)
 	t.Run("PMoveToDest move file to date bas folder", func(t *testing.T) {
-		i := New(appFS, src, dest, PMoveToDest)
+		i := New(appFS, src, PMoveToDateFolder(dest))
 		i.Import()
-		stats, err := appFS.Stat(fmt.Sprintf("%s/2018/06/25/testImage.jpeg", dest))
+		stats, err := appFS.Stat(fmt.Sprintf("%s/2018/06/25/testImage.jpg", dest))
 		assert.Nil(t, err, "error checking moved file: %v", err)
-		assert.Equal(t, "testImage.jpeg", stats.Name(), "wrong moved image name")
+		assert.Equal(t, "testImage.jpg", stats.Name(), "wrong moved image name")
+		stats, err = appFS.Stat(fmt.Sprintf("%s/2019/06/23/testImage2.jpg", dest))
+		assert.Nil(t, err, "error checking moved file: %v", err)
+		assert.Equal(t, "testImage2.jpg", stats.Name(), "wrong moved image name")
 	})
+}
+
+func copyFile(srcFS afero.Fs, srcPath string, destFS afero.Fs, destPath string) error {
+	// copy test image in src
+	from, err := srcFS.Open(srcPath)
+	if err != nil {
+		panic(fmt.Sprintf("error opening src file %s", srcPath))
+	}
+	defer from.Close()
+	to, _ := destFS.OpenFile(destPath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	defer to.Close()
+	io.Copy(to, from)
+	return nil
 }

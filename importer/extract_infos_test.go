@@ -10,7 +10,7 @@ import (
 func TestExtractInfo(t *testing.T) {
 	t.Run("GetCreationDate", func(t *testing.T) {
 		assert := assert.New(t)
-		fname := "../testAssets/testImage.jpeg"
+		fname := "../testAssets/testImage.jpg"
 		date := GetCreationDate(afero.NewOsFs(), fname)
 		assert.Equal(date.Year(), 2018)
 		assert.Equal(int(date.Month()), 6)
