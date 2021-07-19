@@ -79,6 +79,7 @@ func TestProcessors(t *testing.T) {
 
 	dest := fmt.Sprintf("%s/%v", "/tmp/dest", time.Now().Unix())
 	defer appFS.Remove(dest)
+
 	t.Run("PMoveToDest move file to date bas folder", func(t *testing.T) {
 		i := New(appFS, src, PLogFilename("Processing: ", "")).
 			Then(PMoveToDateFolder(dest)).
@@ -90,6 +91,21 @@ func TestProcessors(t *testing.T) {
 		stats, err = appFS.Stat(fmt.Sprintf("%s/2019/06/23/testImage2.jpg", dest))
 		assert.Nil(t, err, "error checking moved file: %v", err)
 		assert.Equal(t, "testImage2.jpg", stats.Name(), "wrong moved image name")
+	})
+
+	t.Run("PMoveToDateFolder stop the processing when cannot decode date", func(t *testing.T) {
+		rawFile, err := appFS.OpenFile("/tmp/src/foo.raw", os.O_RDWR|os.O_CREATE, os.ModePerm)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rawFile.Write([]byte("foo"))
+		i := New(appFS, src, PLogFilename("Processing: ", "")).
+			Then(PMoveToDateFolder(dest)).
+			Then(PLogFilename("processed file:", ""))
+		i.Import()
+		stats, err := appFS.Stat("/tmp/src/foo.raw")
+		assert.Nil(t, err, "error raw files not in src anymore: %v", err)
+		assert.NotNil(t, stats, "stats of raw file are nil: /tmp/src/foo.raw")
 	})
 }
 

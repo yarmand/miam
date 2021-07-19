@@ -48,7 +48,7 @@ func (i Importer) Logger() *log.Logger {
 func (i Importer) Import() error {
 	return afero.Walk(i.appFS, i.source, func(path string, info fs.FileInfo, err error) error {
 		if !info.IsDir() {
-			_, err := i.process(context.TODO(), i, path)
+			_, err := i.process(context.Background(), i, path)
 			if err != nil {
 				return err
 			}
@@ -60,6 +60,6 @@ func (i Importer) Import() error {
 // ImportFiles get a list of files and run processor on them.
 func (i Importer) ImportFiles(fileNames []string) {
 	for _, fileName := range fileNames {
-		i.process(context.TODO(), i, fileName)
+		i.process(context.Background(), i, fileName)
 	}
 }

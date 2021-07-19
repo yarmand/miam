@@ -19,7 +19,11 @@ func PLogFilename(beforeString string, afterString string) Processor {
 // correspoding to the photo creation date.
 func PMoveToDateFolder(destPath string) Processor {
 	return func(ctx context.Context, i Importer, filename string) (processedFilename string, err error) {
-		date := GetCreationDate(i.appFS, filename)
+		date, err := GetCreationDate(i.appFS, filename)
+		if err != nil {
+			i.logger.Printf("[Warning] cannot get creation date on file: %s", filename)
+			return filename, err
+		}
 		destdatePath := fmt.Sprintf("%s/%d/%02d/%02d", destPath, date.Year(), date.Month(), date.Day())
 		destfilename := fmt.Sprintf("%s/%s", destdatePath, path.Base(filename))
 		i.appFS.MkdirAll(destdatePath, os.ModePerm)

@@ -1,7 +1,6 @@
 package importer
 
 import (
-	"log"
 	"time"
 
 	"github.com/rwcarlsen/goexif/exif"
@@ -9,23 +8,26 @@ import (
 )
 
 // GetCreationDate extract creation date from exif infos
-func GetCreationDate(fs afero.Fs, fname string) time.Time {
-	x := decode(fs, fname)
+func GetCreationDate(fs afero.Fs, fname string) (time.Time, error) {
+	x, err := decode(fs, fname)
+	if err != nil {
+		return time.Now(), err
+	}
 	// Two convenience functions exist for date/time taken and GPS coords:
 	tm, _ := x.DateTime()
-	return tm
+	return tm, nil
 }
 
-func decode(fs afero.Fs, fname string) *exif.Exif {
+func decode(fs afero.Fs, fname string) (*exif.Exif, error) {
 	f, err := fs.Open(fname)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	x, err := exif.Decode(f)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	return x
+	return x, nil
 }

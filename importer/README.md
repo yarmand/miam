@@ -8,6 +8,6 @@ It primaraly:
 - insert entry in the database
 
 TODO:
-- [ ] Importer ignore RAW files
+- [x] Importer ignore RAW files
 - [ ] JPG importer move RAW files at the same location
 - [ ] delete RAW files when jpg do not exist anymore in the same folder
