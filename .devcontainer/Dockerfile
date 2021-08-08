@@ -71,9 +71,9 @@ RUN set -e && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
     # store vscode-server files in the contaienr root 
     mkdir /.vscode-server && \
-    chown yarmand.yarmand /.vscode-server && \
+    chown ${USERNAME}.${USERNAME} /.vscode-server && \
     mkdir /.vscode-server-insiders && \
-    chown yarmand.yarmand /.vscode-server-insiders
+    chown ${USERNAME}.${USERNAME} /.vscode-server-insiders
 
 
 # [Optional] Uncomment this section to install additional OS packages.
